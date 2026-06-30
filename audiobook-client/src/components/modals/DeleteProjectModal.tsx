@@ -65,9 +65,9 @@ export default function DeleteProjectModal({
           You are about to delete <strong>{projectTitle}</strong>.
         </Typography>
         <Typography variant="body2" sx={{ color: '#94A3B8', mb: 3 }}>
-          This will permanently delete the project, all its scenes, and
-          extracted scripts. Character profiles and generated audio files on
-          disk will be preserved.
+          This will permanently delete the project, all its scenes, extracted
+          scripts, and all generated audio files on disk. Character profiles
+          will be preserved.
         </Typography>
 
         <Box

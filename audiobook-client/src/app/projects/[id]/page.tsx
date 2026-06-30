@@ -24,6 +24,7 @@ import {
   getLanguageDisplayName,
 } from '@/lib/api';
 import DeleteProjectModal from '@/components/modals/DeleteProjectModal';
+import DeleteSceneModal from '@/components/modals/DeleteSceneModal';
 import CastingDirectorSection from '@/components/CastingDirectorSection';
 import ItemCard from '@/components/cards/ItemCard';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -35,6 +36,7 @@ export default function ProjectDetailsPage() {
   const queryClient = useQueryClient();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [sceneToDelete, setSceneToDelete] = useState<{ id: string; title: string } | null>(null);
 
   const deleteMutation = useMutation({
     mutationFn: () => projectService.deleteProject(id as string),
@@ -48,13 +50,12 @@ export default function ProjectDetailsPage() {
     mutationFn: (sceneId: string) => sceneService.deleteScene(sceneId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['scenes', id] });
+      setSceneToDelete(null);
     },
   });
 
-  const handleDeleteScene = (sceneId: string) => {
-    if (confirm('Are you sure you want to delete this chapter?')) {
-      deleteSceneMutation.mutate(sceneId);
-    }
+  const handleDeleteScene = (sceneId: string, title: string) => {
+    setSceneToDelete({ id: sceneId, title });
   };
 
   const updateProjectMutation = useMutation({
@@ -205,7 +206,7 @@ export default function ProjectDetailsPage() {
                      size="small"
                      onClick={(e) => {
                        e.stopPropagation();
-                       if (scene.id) handleDeleteScene(scene.id);
+                       if (scene.id) handleDeleteScene(scene.id, scene.title);
                      }}
                      sx={{
                        color: '#F44336',
@@ -278,6 +279,19 @@ export default function ProjectDetailsPage() {
           isDeleting={deleteMutation.isPending}
         />
       )}
+
+      {/* Delete Scene Modal */}
+      <DeleteSceneModal
+        open={!!sceneToDelete}
+        onClose={() => setSceneToDelete(null)}
+        onConfirm={() => {
+          if (sceneToDelete) {
+            deleteSceneMutation.mutate(sceneToDelete.id);
+          }
+        }}
+        sceneTitle={sceneToDelete?.title || ''}
+        isDeleting={deleteSceneMutation.isPending}
+      />
     </Box>
   );
 }
