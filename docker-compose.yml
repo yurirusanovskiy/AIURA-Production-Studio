@@ -15,7 +15,12 @@ services:
     environment:
       - AUDIOBOOKS_ROOT_PATH=/app/data
       - CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-      - FIELD_ENCRYPT_KEY=CrGhKCv05FM7CqaXHSlTIg5cb3Bo_AzNCrBWeopEbVo=
+      - FIELD_ENCRYPT_KEY=${FIELD_ENCRYPT_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   frontend:
@@ -28,6 +33,6 @@ services:
     environment:
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     restart: unless-stopped
-
