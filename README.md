@@ -98,3 +98,17 @@ AIURA Production Studio's core casting engine and dialogue-based line editor are
 * **Batch Generation**: Bulk-generate all game character replica takes using voice IDs mapped to localization keys.
 * **Quality Check**: Audition and review lines directly inside the take selector UI to tweak tone and stress marks before exporting to the game engine.
 * **Agent Spec**: See the full implementation specification in [agent_spec_localization.md](file:///Users/iuriyrusanovskiy/Desktop/AudioBooks/audiobook-client/docs/agent_spec_localization.md).
+
+---
+
+## ⚖️ License & Security
+
+### License
+AIURA Production Studio is distributed under a free open-source license. The software is designed to be run entirely on the user's local machine, providing full privacy and database ownership.
+
+### Gemini API Compliance
+This studio uses the Google Gemini API for text processing and speech synthesis. Users must ensure that their API usage and generated audio files comply with the Google Gemini Terms of Service and safety policies.
+
+### Security & Privacy
+* **Self-Custody of Keys**: Your Gemini API keys are encrypted and saved **solely inside your local SQLite database** on your computer.
+* **Full Data Ownership**: No project structures, voice configurations, or generated audio files are ever collected, uploaded, or transmitted to any third-party servers (except direct, secure API requests sent to Google Gemini endpoints). You are fully responsible for the protection and backup of your local database and API keys.
