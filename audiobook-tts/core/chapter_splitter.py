@@ -134,11 +134,27 @@ def split_into_chapters(text: str, max_chars: int = 20000) -> List[Dict[str, Any
             "content": "\n\n".join(current_chapter_paragraphs).strip()
         })
         
-    # Ensure no chapter exceeds max_chars
+    # Ensure no chapter exceeds max_chars, and filter out footnotes/comments
     final_chapters = []
     for chapter in chapters:
         content = chapter["content"]
         title = chapter["title"]
+        
+        # Heuristics to detect if a chapter is a footnote or comment that should be ignored:
+        # 1. Matches common words for footnotes/comments
+        is_footnote_title = re.match(
+            r'^(примечания|сноски|сноска|комментарии|примечание|comments|footnotes|footnote|notes)\b', 
+            title, 
+            re.IGNORECASE
+        ) is not None
+        
+        # 2. Is a short numeric footnote (e.g. "3") with small content (< 1200 characters)
+        is_numeric_footnote = title.isdigit() and len(content) < 1200
+        
+        if is_footnote_title or is_numeric_footnote:
+            # Skip this footnote chapter entirely!
+            continue
+            
         if len(content) > max_chars:
             parts = fallback_chunk_text(content, max_chars)
             if len(parts) <= 1:

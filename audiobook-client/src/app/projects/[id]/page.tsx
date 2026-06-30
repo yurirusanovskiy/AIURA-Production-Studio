@@ -44,6 +44,19 @@ export default function ProjectDetailsPage() {
     },
   });
 
+  const deleteSceneMutation = useMutation({
+    mutationFn: (sceneId: string) => sceneService.deleteScene(sceneId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scenes', id] });
+    },
+  });
+
+  const handleDeleteScene = (sceneId: string) => {
+    if (confirm('Are you sure you want to delete this chapter?')) {
+      deleteSceneMutation.mutate(sceneId);
+    }
+  };
+
   const updateProjectMutation = useMutation({
     mutationFn: (data: { tts_model: string }) =>
       projectService.updateProject(id as string, data),
@@ -185,44 +198,62 @@ export default function ProjectDetailsPage() {
         <Grid container spacing={3}>
           {scenes?.map((scene) => (
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={scene.id}>
-              <ItemCard
-                title={scene.title}
-                chips={[
-                  {
-                    label:
-                      scene.status === 'draft'
-                        ? 'Draft'
-                        : scene.status === 'extracted'
-                          ? 'Script Extracted'
-                          : scene.status === 'error'
-                            ? 'Error'
-                            : 'Completed',
-                    bgcolor:
-                      scene.status === 'completed'
-                        ? 'rgba(76, 175, 80, 0.1)'
-                        : scene.status === 'error'
-                          ? 'rgba(244, 67, 54, 0.1)'
-                          : 'rgba(255,255,255,0.05)',
-                    color:
-                      scene.status === 'completed'
-                        ? '#4CAF50'
-                        : scene.status === 'error'
-                          ? '#F44336'
-                          : '#94A3B8',
-                  },
-                ]}
-                description={
-                  scene.raw_text
-                    ? `${scene.raw_text.substring(0, 150)}...`
-                    : undefined
-                }
-                actionButton={{
-                  text: 'Open Editor',
-                  startIcon: <EditNoteIcon />,
-                  onClick: () =>
-                    router.push(`/projects/${id}/scenes/${scene.id}`),
-                }}
-              />
+               <ItemCard
+                 title={scene.title}
+                 topRightActions={
+                   <IconButton
+                     size="small"
+                     onClick={(e) => {
+                       e.stopPropagation();
+                       if (scene.id) handleDeleteScene(scene.id);
+                     }}
+                     sx={{
+                       color: '#F44336',
+                       bgcolor: 'rgba(244, 67, 54, 0.05)',
+                       '&:hover': {
+                         bgcolor: 'rgba(244, 67, 54, 0.15)',
+                       },
+                     }}
+                   >
+                     <DeleteOutlinedIcon fontSize="small" />
+                   </IconButton>
+                 }
+                 chips={[
+                   {
+                     label:
+                       scene.status === 'draft'
+                         ? 'Draft'
+                         : scene.status === 'extracted'
+                           ? 'Script Extracted'
+                           : scene.status === 'error'
+                             ? 'Error'
+                             : 'Completed',
+                     bgcolor:
+                       scene.status === 'completed'
+                         ? 'rgba(76, 175, 80, 0.1)'
+                         : scene.status === 'error'
+                           ? 'rgba(244, 67, 54, 0.1)'
+                           : 'rgba(255,255,255,0.05)',
+                     color:
+                       scene.status === 'completed'
+                         ? '#4CAF50'
+                         : scene.status === 'error'
+                           ? '#F44336'
+                           : '#94A3B8',
+                   },
+                 ]}
+                 description={
+                   scene.raw_text
+                     ? `${scene.raw_text.substring(0, 150)}...`
+                     : undefined
+                 }
+                 actionButton={{
+                   text: 'Open Editor',
+                   startIcon: <EditNoteIcon />,
+                   onClick: () =>
+                     router.push(`/projects/${id}/scenes/${scene.id}`),
+                 }}
+               />
             </Grid>
           ))}
           {scenes?.length === 0 && (
