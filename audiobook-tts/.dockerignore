@@ -1,0 +1,14 @@
+.env
+.venv
+*.db
+*.db.backup
+*.wav
+data/
+static/audio/
+scratch/
+__pycache__/
+*.pyc
+.git
+.gitignore
+.dockerignore
+Dockerfile

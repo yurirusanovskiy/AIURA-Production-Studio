@@ -1,0 +1,29 @@
+# OS-specific
+.DS_Store
+
+# Local database & audio directory
+data/
+.database/
+db/*.db
+db/*.db.backup
+
+# Env secrets
+.env
+.env.local
+
+# Node/Python caches of subdirectories
+**/node_modules/
+**/.next/
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/models/
+
+# Scratch & Design Files
+AI Audiobook Production Studio.zip
+AI Audiobook Production Studio/
+AudiobookFigma/
+ImplPlan.md
+Implementation_plan.md
+Project_Tasks_Flow.md
+flow.md

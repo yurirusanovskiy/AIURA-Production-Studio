@@ -1,0 +1,37 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Database
+*.db
+*.db.backup
+*.sqlite3
+
+# Environment
+.env
+
+# Audio Output
+data/output_audio/
+
+# OS
+.DS_Store
+static/audio/
+
+# Stale databases
+audiobook_core.db.backup
+
+# Scratch scripts
+scratch/
+
+# Local Documentation
+docs/
+
+# ML models
+models/

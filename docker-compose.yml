@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./audiobook-tts
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the configured root path to /app/data inside the container
+      # Defaults to creating a './data' directory locally if AUDIOBOOKS_ROOT_PATH is not set on the host
+      - ${AUDIOBOOKS_ROOT_PATH:-./data}:/app/data
+    environment:
+      - AUDIOBOOKS_ROOT_PATH=/app/data
+      - CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - FIELD_ENCRYPT_KEY=CrGhKCv05FM7CqaXHSlTIg5cb3Bo_AzNCrBWeopEbVo=
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./audiobook-client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
