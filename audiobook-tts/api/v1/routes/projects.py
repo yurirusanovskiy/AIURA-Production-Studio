@@ -562,14 +562,15 @@ async def upload_book(project_id: str, file: UploadFile = File(...), session: Se
     next_order = max((s.order_index for s in existing_scenes), default=-1) + 1
     
     created_count = 0
-    for chunk in chunks:
+    for chunk_data in chunks:
         scene_id = f"scene_{uuid.uuid4().hex[:8]}"
+        scene_title = chunk_data.get("title") or f"Chapter {next_order + created_count + 1}"
         scene = Scene(
             id=scene_id,
             project_id=project_id,
-            title=f"Chapter {next_order + created_count + 1}",
+            title=scene_title,
             order_index=next_order + created_count,
-            raw_text=chunk
+            raw_text=chunk_data["content"]
         )
         session.add(scene)
         created_count += 1
