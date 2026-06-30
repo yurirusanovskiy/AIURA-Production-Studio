@@ -126,9 +126,42 @@ def delete_project(project_id: str, session: Session = Depends(get_session)):
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
         
+    # ── Stage 3: Delete audio files on disk ────────────────────────────────────────
+    import shutil
+    from core.path_utils import get_audiobooks_root_path
+    
+    base_dir = get_audiobooks_root_path()
+    
+    # 1. Delete all scene wavs and stems folders associated with this project
+    for scene in project.scenes:
+        # Delete scene master track
+        final_scene_file = os.path.join(base_dir, f"{scene.id}.wav")
+        if os.path.exists(final_scene_file):
+            try:
+                os.remove(final_scene_file)
+            except Exception as e:
+                logger.warning("Failed to delete scene master track %s: %s", final_scene_file, e)
+                
+        # Delete scene stems directory
+        stems_dir = os.path.join(base_dir, f"{scene.id}_stems")
+        if os.path.exists(stems_dir):
+            try:
+                shutil.rmtree(stems_dir, ignore_errors=True)
+            except Exception as e:
+                logger.warning("Failed to delete scene stems directory %s: %s", stems_dir, e)
+                
+    # 2. Delete the entire project directory (contains line audio takes)
+    project_dir = os.path.join(base_dir, project_id)
+    if os.path.exists(project_dir):
+        try:
+            shutil.rmtree(project_dir, ignore_errors=True)
+            logger.info("Deleted project directory: %s", project_dir)
+        except Exception as e:
+            logger.warning("Failed to delete project directory %s: %s", project_dir, e)
+
     session.delete(project)
     session.commit()
-    return {"ok": True, "message": "Project and all associated scenes deleted"}
+    return {"ok": True, "message": "Project and all associated scenes and audio files deleted"}
 
 class ProjectCharacterResponse(BaseModel):
     """A Character enriched with a project-specific alias. Uses plain BaseModel

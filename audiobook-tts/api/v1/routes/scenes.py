@@ -386,11 +386,44 @@ def update_scene(scene_id: str, scene_in: SceneUpdate, session: Session = Depend
 
 @router.delete("/scenes/{scene_id}")
 def delete_scene(scene_id: str, session: Session = Depends(get_session)):
-    """Delete a scene and its lines."""
+    """Delete a scene and its lines, cleaning up disk files."""
     scene = session.get(Scene, scene_id)
     if not scene:
         raise HTTPException(status_code=404, detail="Scene not found")
     
+    # ── Stage 3: Delete audio files on disk ────────────────────────────────────────
+    import shutil
+    from core.path_utils import get_audiobooks_root_path
+    
+    base_dir = get_audiobooks_root_path()
+    
+    # 1. Delete final scene WAV
+    final_scene_file = os.path.join(base_dir, f"{scene_id}.wav")
+    if os.path.exists(final_scene_file):
+        try:
+            os.remove(final_scene_file)
+            logger.info("Deleted scene master track: %s", final_scene_file)
+        except Exception as e:
+            logger.warning("Failed to delete scene master track: %s", e)
+            
+    # 2. Delete scene stems directory
+    stems_dir = os.path.join(base_dir, f"{scene_id}_stems")
+    if os.path.exists(stems_dir):
+        try:
+            shutil.rmtree(stems_dir, ignore_errors=True)
+            logger.info("Deleted scene stems directory: %s", stems_dir)
+        except Exception as e:
+            logger.warning("Failed to delete scene stems directory: %s", e)
+            
+    # 3. Delete scene lines directory
+    lines_dir = os.path.join(base_dir, scene.project_id, scene_id)
+    if os.path.exists(lines_dir):
+        try:
+            shutil.rmtree(lines_dir, ignore_errors=True)
+            logger.info("Deleted scene lines directory: %s", lines_dir)
+        except Exception as e:
+            logger.warning("Failed to delete scene lines directory: %s", e)
+            
     session.delete(scene)
     session.commit()
     return {"status": "ok"}
