@@ -392,9 +392,6 @@ def delete_scene(scene_id: str, session: Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="Scene not found")
     
     # ── Stage 3: Delete audio files on disk ────────────────────────────────────────
-    import shutil
-    from core.path_utils import get_audiobooks_root_path
-    
     base_dir = get_audiobooks_root_path()
     
     # 1. Delete final scene WAV

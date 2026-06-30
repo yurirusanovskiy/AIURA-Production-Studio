@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from fastapi.responses import FileResponse
 import os
+import shutil
 import logging
 from sqlmodel import Session, select, or_
 from typing import List, Optional
@@ -10,6 +11,7 @@ from db.models import Project, Character, ProjectCharacterLink, Scene, VoiceDefi
 import uuid
 from datetime import datetime, timezone
 from google import genai
+from core.path_utils import get_audiobooks_root_path
 
 logger = logging.getLogger(__name__)
 
@@ -127,9 +129,6 @@ def delete_project(project_id: str, session: Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="Project not found")
         
     # ── Stage 3: Delete audio files on disk ────────────────────────────────────────
-    import shutil
-    from core.path_utils import get_audiobooks_root_path
-    
     base_dir = get_audiobooks_root_path()
     
     # 1. Delete all scene wavs and stems folders associated with this project
