@@ -24,6 +24,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { dictionaryService, DictionaryEntry } from '@/lib/api';
 import DictionaryModal from '@/components/modals/DictionaryModal';
+import ConfirmModal from '@/components/modals/ConfirmModal';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -32,6 +33,7 @@ export default function DictionaryPage() {
   const [editingEntry, setEditingEntry] = useState<DictionaryEntry | null>(
     null,
   );
+  const [entryToDelete, setEntryToDelete] = useState<{ id: number; word: string } | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const queryClient = useQueryClient();
 
@@ -48,6 +50,7 @@ export default function DictionaryPage() {
     mutationFn: (id: number) => dictionaryService.deleteEntry(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['dictionary'] });
+      setEntryToDelete(null);
     },
   });
 
@@ -334,12 +337,8 @@ export default function DictionaryPage() {
                           },
                         }}
                         onClick={() => {
-                          if (
-                            window.confirm(
-                              `Are you sure you want to delete the phonetic rule for "${entry.word}"?`,
-                            )
-                          ) {
-                            if (entry.id) deleteMutation.mutate(entry.id);
+                          if (entry.id) {
+                            setEntryToDelete({ id: entry.id, word: entry.word });
                           }
                         }}
                         title="Delete Entry"
@@ -360,6 +359,20 @@ export default function DictionaryPage() {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         initialData={editingEntry}
+      />
+
+      <ConfirmModal
+        open={!!entryToDelete}
+        onClose={() => setEntryToDelete(null)}
+        onConfirm={() => {
+          if (entryToDelete) {
+            deleteMutation.mutate(entryToDelete.id);
+          }
+        }}
+        title="Delete Dictionary Entry"
+        message={`Are you sure you want to delete the phonetic rule for "${entryToDelete?.word}"? This action cannot be undone.`}
+        confirmText="Delete"
+        isPending={deleteMutation.isPending}
       />
     </Box>
   );

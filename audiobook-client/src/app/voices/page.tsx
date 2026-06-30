@@ -34,6 +34,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import VoiceModal from '@/components/modals/VoiceModal';
 import ItemCard from '@/components/cards/ItemCard';
+import ConfirmModal from '@/components/modals/ConfirmModal';
 
 export default function VoicesPage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -45,18 +46,19 @@ export default function VoicesPage() {
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [activeAudio, setActiveAudio] = useState<HTMLAudioElement | null>(null);
 
+  const [charToDelete, setCharToDelete] = useState<{ id: string; name: string } | null>(null);
+
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
     mutationFn: characterService.deleteCharacter,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['characters'] });
+      setCharToDelete(null);
     },
   });
 
-  const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this character?')) {
-      deleteMutation.mutate(id);
-    }
+  const handleDelete = (id: string, name: string) => {
+    setCharToDelete({ id, name });
   };
 
   const handleEdit = (char: Character) => {
@@ -299,7 +301,7 @@ export default function VoicesPage() {
                         </IconButton>
                         <IconButton
                           size="small"
-                          onClick={() => handleDelete(char.id)}
+                          onClick={() => handleDelete(char.id, char.name)}
                           sx={{
                             color: '#94A3B8',
                             '&:hover': { color: '#EF4444' },
@@ -350,6 +352,20 @@ export default function VoicesPage() {
           setCharacterToEdit(null);
         }}
         characterToEdit={characterToEdit}
+      />
+
+      <ConfirmModal
+        open={!!charToDelete}
+        onClose={() => setCharToDelete(null)}
+        onConfirm={() => {
+          if (charToDelete) {
+            deleteMutation.mutate(charToDelete.id);
+          }
+        }}
+        title="Delete Character"
+        message={`Are you sure you want to delete the character "${charToDelete?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        isPending={deleteMutation.isPending}
       />
     </Box>
   );
