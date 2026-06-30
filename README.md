@@ -104,7 +104,7 @@ AIURA Production Studio's core casting engine and dialogue-based line editor are
 ## ⚖️ License & Security
 
 ### License
-AIURA Production Studio is distributed under a free open-source license. The software is designed to be run entirely on the user's local machine, providing full privacy and database ownership.
+AIURA Production Studio is distributed under the MIT License. The software is designed to be run entirely on the user's local machine, providing full privacy and database ownership.
 
 ### Gemini API Compliance
 This studio uses the Google Gemini API for text processing and speech synthesis. Users must ensure that their API usage and generated audio files comply with the Google Gemini Terms of Service and safety policies.
