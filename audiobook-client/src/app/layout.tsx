@@ -15,8 +15,8 @@ import { Providers } from '@/components/Providers';
 import AppLayout from '@/components/layout/AppLayout';
 
 export const metadata: Metadata = {
-  title: 'AIURA Studio',
-  description: 'Audiobook Studio Creator',
+  title: 'AIURA Production Studio',
+  description: 'AI Voice Casting & Audio Production Studio',
 };
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
-# AIURA Studio — Backend Engine
+# AIURA Production Studio — Backend Engine
 
-This is the FastAPI backend engine for **AIURA Studio**. It manages database persistence, text preprocessing, phonetic transcription, and handles the multi-character voice generation via the Google Gemini TTS API.
+This is the FastAPI backend engine for **AIURA Production Studio**. It manages database persistence, text preprocessing, phonetic transcription, and handles the multi-character voice generation via the Google Gemini TTS API.
 
 ## 🚀 Key Features
 

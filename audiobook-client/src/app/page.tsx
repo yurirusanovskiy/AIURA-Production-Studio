@@ -59,7 +59,7 @@ export default function ProjectsPage() {
             component="h1"
             sx={{ fontWeight: 600, color: '#FFFFFF', mb: 1 }}
           >
-            AIURA Studio
+            AIURA Production Studio
           </Typography>
           <Typography variant="body1" sx={{ color: '#94A3B8' }}>
             {projects ? projects.length : 0} active productions

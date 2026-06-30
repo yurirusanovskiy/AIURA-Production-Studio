@@ -1,6 +1,6 @@
 # AI Agent Specification: Movie Dubbing & Video Game Localization Extensions
 
-This document provides architectural patterns, specifications, and guidelines for future AI agents/developers when implementing Movie Dubbing (via Subtitles) and Video Game Localization features in AIURA Studio.
+This document provides architectural patterns, specifications, and guidelines for future AI agents/developers when implementing Movie Dubbing (via Subtitles) and Video Game Localization features in AIURA Production Studio.
 
 ---
 

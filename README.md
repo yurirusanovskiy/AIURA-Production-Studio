@@ -1,13 +1,13 @@
-# AIURA Studio (Audiobook Studio Creator)
+# AIURA Production Studio
 
-AIURA Studio is a premium, AI-powered audiobook casting, editing, and voice-generation workshop. It uses a Next.js frontend and a FastAPI backend to coordinate multi-character speech synthesis via the Gemini TTS API.
+AIURA Production Studio is a premium, AI-powered casting, editing, and voice-generation workshop designed for audiobooks, video localization, and movie dubbing. It uses a Next.js frontend and a FastAPI backend to coordinate multi-character speech synthesis via the Gemini TTS API.
 
 ---
 
 ## 📸 Screenshots Showcase
 
 <p align="center">
-  <img src="audiobook-client/screenshots/1.png" width="48%" alt="AIURA Studio Projects Dashboard" />
+  <img src="audiobook-client/screenshots/1.png" width="48%" alt="AIURA Production Studio Dashboard" />
   <img src="audiobook-client/screenshots/2.png" width="48%" alt="Voice Casting Director" />
 </p>
 <p align="center">
@@ -25,14 +25,14 @@ AIURA Studio is a premium, AI-powered audiobook casting, editing, and voice-gene
 ---
 
 ## 🎧 Created Audiobooks Showcase
-Check out actual audiobooks and sample tracks fully produced using AIURA Studio on our YouTube channel:
-👉 **[AIURA Studio Showcase on YouTube](https://www.youtube.com/channel/UCkNHE4zeaFT6eJsyO2k8Mqg)**
+Check out actual audiobooks and sample tracks fully produced using AIURA Production Studio on our YouTube channel:
+👉 **[AIURA Production Studio Showcase on YouTube](https://www.youtube.com/channel/UCkNHE4zeaFT6eJsyO2k8Mqg)**
 
 ---
 
 ## 🚀 Quick Start (Docker Compose)
 
-The easiest way to run the entire AIURA Studio stack (frontend & backend) is using Docker Compose.
+The easiest way to run the entire AIURA Production Studio stack (frontend & backend) is using Docker Compose.
 
 ### Prerequisites
 - [Docker](https://www.docker.com/) and Docker Compose installed.
@@ -86,7 +86,7 @@ pnpm run dev
 
 ## 🔮 Future Roadmap & Alternative Use Cases
 
-AIURA Studio's core casting engine and dialogue-based line editor are highly extensible and naturally adapt to other media formats:
+AIURA Production Studio's core casting engine and dialogue-based line editor are highly extensible and naturally adapt to other media formats:
 
 ### 🎬 Movie Dubbing & Video Translation
 * **Concept**: Import subtitle files (e.g., `.srt`, `.ass`) instead of books.

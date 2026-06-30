@@ -1,11 +1,11 @@
-# AIURA Studio — Client (Audiobook Studio Creator)
+# AIURA Production Studio — Client
 
-AIURA Studio is a premium, AI-powered audiobook casting, editing, and voice-generation workshop. It provides a rich, modern, and highly interactive user interface to orchestrate multi-character narration using the Gemini TTS API.
+AIURA Production Studio is a premium, AI-powered casting, editing, and voice-generation workshop. It provides a rich, modern, and highly interactive user interface to orchestrate multi-character narration using the Gemini TTS API.
 
-## 📺 Screenshots Showcase
+## 📸 Screenshots Showcase
 
 <p align="center">
-  <img src="screenshots/1.png" width="48%" alt="AIURA Studio Projects Dashboard" />
+  <img src="screenshots/1.png" width="48%" alt="AIURA Production Studio Projects Dashboard" />
   <img src="screenshots/2.png" width="48%" alt="Voice Casting Director" />
 </p>
 <p align="center">
@@ -21,8 +21,8 @@ AIURA Studio is a premium, AI-powered audiobook casting, editing, and voice-gene
 </p>
 
 ## 🎧 Created Audiobooks Showcase
-Check out actual audiobooks and sample tracks fully produced using AIURA Studio on our YouTube channel:
-👉 **[AIURA Studio Showcase on YouTube](https://www.youtube.com/channel/UCkNHE4zeaFT6eJsyO2k8Mqg)**
+Check out actual audiobooks and sample tracks fully produced using AIURA Production Studio on our YouTube channel:
+👉 **[AIURA Production Studio Showcase on YouTube](https://www.youtube.com/channel/UCkNHE4zeaFT6eJsyO2k8Mqg)**
 
 ## 🚀 Key Features
 
@@ -57,13 +57,13 @@ Check out actual audiobooks and sample tracks fully produced using AIURA Studio 
    ```
 3. Open [http://localhost:3000](http://localhost:3000) to access the workshop.
 
-*(Note: Requires the AIURA Studio Backend running on port 8000).*
+*(Note: Requires the AIURA Production Studio Backend running on port 8000).*
 
 ---
 
 ## 🔮 Future Roadmap & Alternative Use Cases
 
-AIURA Studio's core casting engine and dialogue-based line editor are highly extensible and naturally adapt to other media formats:
+AIURA Production Studio's core casting engine and dialogue-based line editor are highly extensible and naturally adapt to other media formats:
 
 ### 🎬 Movie Dubbing & Video Translation
 * **Concept**: Import subtitle files (e.g., `.srt`, `.ass`) instead of books.
