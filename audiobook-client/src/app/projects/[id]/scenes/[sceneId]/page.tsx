@@ -556,9 +556,20 @@ export default function SceneEditorPage() {
   const initializedRawTextRef = useRef<string | null>(null);
   const initializedLinesRef = useRef<string | null>(null);
 
+  const [displayLimit, setDisplayLimit] = useState(25);
+
   useEffect(() => {
     editedLinesRef.current = editedLines;
   }, [editedLines]);
+
+  useEffect(() => {
+    if (editedLines.length > displayLimit) {
+      const timer = setTimeout(() => {
+        setDisplayLimit((prev) => Math.min(prev + 25, editedLines.length));
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [editedLines.length, displayLimit]);
 
   const { data: project } = useQuery({
     queryKey: ['project', id],
@@ -580,6 +591,7 @@ export default function SceneEditorPage() {
 
   useEffect(() => {
     setEditedLines([]);
+    setDisplayLimit(25);
     initializedRawTextRef.current = null;
     initializedLinesRef.current = null;
   }, [sceneId]);
@@ -1129,7 +1141,7 @@ export default function SceneEditorPage() {
                     gap: 2,
                   }}
                 >
-                  {editedLines.map((line, idx) => (
+                  {editedLines.slice(0, displayLimit).map((line, idx) => (
                     <LineEditor
                       key={line.id || idx}
                       line={line}
@@ -1148,6 +1160,11 @@ export default function SceneEditorPage() {
                     />
                   ))}
                 </List>
+                {displayLimit < editedLines.length && (
+                  <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+                    <CircularProgress size={24} sx={{ color: '#82B1FF' }} />
+                  </Box>
+                )}
                 <Button
                   startIcon={<AddIcon />}
                   onClick={handleAppendLine}
